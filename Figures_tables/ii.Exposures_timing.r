@@ -56,7 +56,7 @@ pregs_hdfa <- pregs_hdfa %>% mutate(start_window = as.Date(est_date_conception) 
          hdFA_PIS_after_12wks=case_when(date_to_use >= end_window & date_to_use <= date_end_pregnancy ~1 , T~0)  ) 
 table(pregs_hdfa$hdFA_PIS_in_preg, pregs_hdfa$hdFA_PIS_to_12wks)
 
-##filter to remove prescriptiosn not relewvant to pregnancy
+##filter to remove prescriptions not relevant to pregnancy
 pregs_hdfa <- pregs_hdfa %>% filter(hdFA_PIS_in_preg==1)
 
 ##count of tablets in relevant prescriptions

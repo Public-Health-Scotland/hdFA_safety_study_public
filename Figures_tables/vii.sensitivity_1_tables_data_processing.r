@@ -1,15 +1,14 @@
-###4bii: Table 2 Senesitivty analyses 
+### Sensitivity analyses 
 ## any indicator
+##demographics table
 
-###restirct to those with an indication we could find for hdfa####
+###restrict to those with an indication we could find for hdfa####
 df_ind <- df  %>% mutate(any_indication = 
                            case_when(obese=="Yes" | ind_ntd=="Yes"|asm_flag=="Yes"| mtx_flag=="Yes" | 
                                        ind_preexist_diabetes=="Yes"|ind_sickle_cell=="Yes"|
                                        ind_thalassaemia=="Yes"| ind_coeliac=="Yes" ~1,
                                      T~0)) %>%
   filter(any_indication==1) 
-
-
 
 ##exposure numbers####
 t_n_exposed <- df_ind %>% group_by(hdfa_preg) %>% count() %>% pivot_wider(names_from = hdfa_preg, values_from = n)
@@ -128,8 +127,7 @@ df_ind<-df_ind%>% mutate(any_indicator = case_when( obese=="Yes" | ind_ntd=="Yes
                                                ind_preexist_diabetes=="Yes" |mtx_flag=="Yes"| asm_flag=="Yes" ~"Yes" ,
                                              T~"No"))
 
-#t_ind <-tab_fun(df_ind, "any_indicator", "Family history of NTD\u1d9c") %>%
-  #tab_add_heads()
+
 ##smoking###
 t_smoke <-tab_fun(df_ind, "maternal_smoking", "Maternal smoking at antenatal booking")%>%
   tab_add_heads()

@@ -13,9 +13,7 @@ library(reshape2)
 ##new version of tab_fun function to combine the N and % into one column
 ##table function
 tab_fun <- function(df,x, varname){
-  #df<-df_ind
-  #x <- "ind_ntd"
-  # varname<-"ind_ntd"
+
   var <- sym(x)
   df %>%
     group_by(!!var, hdfa_preg) %>% count()%>%
@@ -77,7 +75,6 @@ convert_YN <- function(x){case_when(x==1 ~ "Yes",
 workbook <- createWorkbook()
 # set default font####
 modifyBaseFont(workbook, fontSize = 10, fontName = "Arial")
-##footnotes need to be 8pt and modified individually
 
 ## set styles ###
 bold.style <- createStyle(textDecoration = "Bold",fgFill = "white")
@@ -719,9 +716,7 @@ for (row in 1:nrow(stats_0_1)){
   sheetRow <- data.frame(lapply(stats_0_1[row,],
                                 function(x){type.convert(as.character(x))}),
                          check.names = FALSE, stringsAsFactors = FALSE)
-  # if (row == 1) {
-  ##    writeData(workbook, "eTable_6", x = sheetRow, startRow = row+9, colNames = TRUE,  headerStyle = head.style)
-  #  } else {
+  
   writeData(workbook,  "eTable_6", x = sheetRow, startRow = row+10, colNames = FALSE)
   # }
 }
@@ -1039,9 +1034,7 @@ for (row in 1:nrow(stats_0_1)){
   sheetRow <- data.frame(lapply(stats_0_1[row,],
                                 function(x){type.convert(as.character(x))}),
                          check.names = FALSE, stringsAsFactors = FALSE)
-  # if (row == 1) {
-  ##    writeData(workbook, "eTable_7", x = sheetRow, startRow = row+9, colNames = TRUE,  headerStyle = head.style)
-  #  } else {
+
   writeData(workbook,  "eTable_9", x = sheetRow, startRow = row+10, colNames = FALSE)
   # }
 }
@@ -1158,7 +1151,6 @@ results_unwt <- readRDS(paste0(folder_data_path, "outputs/sesn_any_predictions_u
 ##wide res
 wideres <- dcast(results, time_interval ~ randf, value.var = 'mean_survival')
 
-#head(wideres)
 
 # Create summary statistics
 wideres <- wideres%>%
@@ -1378,7 +1370,7 @@ addWorksheet(workbook, "eTable_11")
 
 ##add white background to everything
 addStyle(workbook, "eTable_11", style = createStyle(fgFill = "white"), rows = 1:200, cols = 1:100, gridExpand = TRUE)
-#add link back to contents
+
 
 ##run file that sets up the data for table 2
 source("Figures_tables/ix.sens_ASM_table_demog.r")
@@ -1540,9 +1532,7 @@ for (row in 1:nrow(stats_0_1)){
   sheetRow <- data.frame(lapply(stats_0_1[row,],
                                 function(x){type.convert(as.character(x))}),
                          check.names = FALSE, stringsAsFactors = FALSE)
-  # if (row == 1) {
-  ##    writeData(workbook, "eTable_7", x = sheetRow, startRow = row+9, colNames = TRUE,  headerStyle = head.style)
-  #  } else {
+
   writeData(workbook,  "eTable_12", x = sheetRow, startRow = row+10, colNames = FALSE)
   # }
 }

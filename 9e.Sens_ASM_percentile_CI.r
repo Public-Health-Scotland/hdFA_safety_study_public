@@ -37,7 +37,6 @@ results <- left_join(results,bsCI)
 p <- ggplot() +
   geom_line(aes(x=results$time_interval, y = results$`50%`, colour= results$randf))+
   geom_point(aes(x=results$time_interval, y = results$`50%`, colour= results$randf))+
-  #  geom_line(aes(x=time, y = ci_lower,colour = group))+
   geom_ribbon(aes(x=results$time_interval, ymin= results$`CI2.5%`, ymax= results$`CI97.5%`,
                   colour= results$randf), linetype=2, alpha=0.1) +
     xlab("Years") +

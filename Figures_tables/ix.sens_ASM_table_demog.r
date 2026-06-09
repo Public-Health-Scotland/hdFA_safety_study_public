@@ -1,4 +1,4 @@
-###Demographics Table  Sensitivty analyses 
+###Demographics Table  Sensitivity analyses 
 ## any indicator
 
 ###restrict to those with an indication we could find for hdfa####
@@ -81,7 +81,7 @@ t_bmi <- tab_fun(df_asm, "bmi_group", "Maternal BMI at antenatal booking")%>%
 ###mother cancer history
 t_cancer_history <-tab_fun(df_asm, "cancer_history", "Maternal cancer history")%>%
   tab_add_heads()
-###Mother comorbidities and inidcators#
+###Mother comorbidities and indicators#
 ###ASM use###
 t_asm1  <-tab_fun(df_asm, "asm_flag", "Maternal ASM use\u1d48")%>%
   tab_add_heads()
@@ -105,11 +105,11 @@ t_obese  <- tab_fun(df_asm, "obese", "Maternal obesity at antenatal booking")%>%
 t_thaless  <- tab_fun(df_asm, "ind_thalassaemia", "Maternal thalassaemia major")%>%
   tab_add_heads()
 
-###prexisting diabetes
+###pre-existing diabetes
 t_diabetes <-tab_fun(df_asm, "ind_preexist_diabetes", "Maternal pre-pregnancy diabetes")%>%
   tab_add_heads()
 
-###SIckle cell
+###Sickle cell
 t_sickle <-tab_fun(df_asm, "ind_sickle_cell", "Maternal sickle cell anaemia") %>%
   tab_add_heads()
 

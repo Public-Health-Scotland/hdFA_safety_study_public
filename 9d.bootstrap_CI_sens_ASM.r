@@ -1,7 +1,4 @@
 ##Bootstrap#
-#library(future)
-#plan(multisession)
-#library(boot)
 
 library(renv)
 library(dplyr)
@@ -23,11 +20,6 @@ library(reshape2)
 library(rms)
 folder_data_path <- "/conf/FolicAcid/data/"
 
-
-##issues to sort - use exact years not /365.25
-## combine last 2 timepoints
-## doubley robust model?
-#
 
 #preprep not in loop#
 df<- readRDS(paste0(folder_data_path, "working_data/Sens_ASM_dataset_clean_wts.rds"))

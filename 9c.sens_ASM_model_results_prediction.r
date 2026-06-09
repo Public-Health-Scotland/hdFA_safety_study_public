@@ -10,7 +10,6 @@ df_long <- readRDS(paste0(folder_data_path, "working_data/sensitivity_ASM_long_d
 # . Create simulated data where everyone is treated
 ##set which model using for predict.
 ##stabilised weights####
-##time as factor
 fit_wts <- fit_wts
 #summary(fit_wts)
 robustSE <-coeftest(fit_wts, vcov=vcovHC(fit_wts, type="HC1")) # To get robust SE estimates

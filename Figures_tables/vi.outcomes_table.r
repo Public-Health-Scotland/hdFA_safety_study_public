@@ -1,5 +1,4 @@
-##T3_Outcomes####
-##cancer outcomes
+##cancer outcomes####
 ##person years at risk
 
 df<- df %>% mutate(pyar_end = case_when(death==0 & is.na(TRANSFER_OUT_CODE)~ as.Date("2023-12-31"),

@@ -69,16 +69,15 @@ system.time(bootres <- foreach(i=1:B, .combine=rbind) %dopar% {
                                                 ind_thalassaemia +
                                                 cancer_history +
                                                 any_comorb +maternal_smoking, data = bootdf,
-                                              estimand = "ATE",  # Find the ATE
+                                              estimand = "ATE", 
                                               method = "ps", 
                                               stabilize=TRUE)$weights
-#  return(summary(bootdf$stabil_weights))
+
   bootdf <- bootdf %>% select(  pregnancy_id,
                            treated,
                           cancer_outcome,
                           n_int,
                           stabil_weights,
-                          # OPTIONAL covariates for outcome model:
                           maternal_age_conception,
                           year_conception,
                           any_comorb)

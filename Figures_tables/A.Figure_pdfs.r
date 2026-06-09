@@ -12,8 +12,7 @@ quibble <- function(x, q = c(0.025,0.5, 0.975), dropNA = TRUE) {
 library(flowchart)
 flowdata<- readRDS(paste0(folder_data_path, "outputs/flowchart_data.rds"))
 #flowchart
-##in order to get two numbers/exclusions in one box, may have to manually compute numbers
-# and put them in the label and supress box automatic numbers. 
+
 n_nonlive <- flowdata %>% filter(livebirth==0) %>% nrow()
 
 n_multi_live <- flowdata %>% filter(livebirth==1) %>% filter(multiple==1) %>% nrow()
@@ -131,7 +130,7 @@ df<- df %>%
                      T~end_follow_type),
          end_follow = 
            case_when(as.Date(end_follow) > as.Date("2023-12-31")  ~ as.POSIXct("2023-12-31"), T~end_follow)  )
-##ethnicity mapping - 2011-2022 versions
+##ethnicity mapping
 df <- df %>% mutate(mat_ethnicity_mapped = case_when(maternal_ethnicity %in% c("4D",  "4Y") ~ "4X", 
                                                      maternal_ethnicity %in% c("5C", "5D", "5Y") ~ "5X", 
                                                      maternal_ethnicity %in% c("1E", "1F", "1G", "1H") ~ "1B", 

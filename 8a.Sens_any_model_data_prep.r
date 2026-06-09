@@ -1,4 +1,4 @@
-#pooled regression sensitivity analysis1####
+#pooled regression sensitivity analysis####
 ##any indication####
 folder_data_path <- "/conf/FolicAcid/data/"
 
@@ -25,7 +25,6 @@ df <-df %>% select(pregnancy_id,
 
 
 df_long <-  df  %>%
-  #  pp <-  df1  %>% 
   uncount(n_int, .id = "time_interval", .remove = FALSE) %>%
   mutate(
     tstart = time_interval - 1L,

@@ -12,8 +12,7 @@ library(reshape2)
 ##new version of tab_fun function to combine the N and % into one column
 ##table function
 tab_fun <- function(df,x, varname){
-  # x <- "bw_group"
-  # varname<-"birthweight group"
+ 
   var <- sym(x)
   df %>%
     group_by(!!var, hdfa_preg) %>% count()%>%
@@ -254,15 +253,12 @@ df <- df %>% mutate(mat_ethnicity_mapped = case_when(maternal_ethnicity %in% c("
   mutate(maternal_simd = case_when(is.na(maternal_simd) ~"Unknown", T~maternal_simd)) %>%
   mutate(maternal_simd = paste0("SIMD ", maternal_simd)) %>%
   mutate(baby_sex = case_when(is.na(baby_sex) ~ "Unknown", T~baby_sex)) %>%
-  #mutate(hdfa_preg = case_when(hdfa_preg == "exposed_hdfa" ~"Exposed to hdFA", 
-  #                            hdfa_preg == "unexposed_hdfa" ~"Unexposed", )) %>% 
   mutate(ind_sickle_cell = case_when(is.na(ind_sickle_cell) ~ 0, T~ind_sickle_cell)  ) %>%
-  ##flag for ASM and MTX only when taken in peio before pregnancy and 0-12 weeks
   mutate(mtx_flag = case_when(mtx_PIS_conception==1 & mtx_PIS_to_12_wks==1 ~1, T~0),
          asm_flag = case_when(asm_conception==1 & asm_to_12wks==1 ~ 1, T~0))
 
 
-### ethnicity by year and grouped ethnicity by year
+###  grouped ethnicity 
 df <- df %>% mutate(mat_ethnicity_broad_groups = 
                       case_when(grepl("white", maternal_ethnicity_desc, ignore.case=T) |
                                   maternal_ethnicity_desc %in% c("Scottish", "Gypsy/Traveller", "Other British","Polish") |
@@ -407,11 +403,11 @@ df<- df %>% mutate(obese = case_when(bmi_group=="Obese"~ "Yes",
 t_obese  <- tab_fun(df, "obese", "Maternal obesity at antenatal booking")%>%
   tab_add_heads()
 
-###THalessaemia major##
+###Thalessaemia major##
 t_thaless  <- tab_fun(df, "ind_thalassaemia", "Maternal thalassaemia major")%>%
   tab_add_heads()
 
-###prexisting diabetes
+###pre-existing diabetes
 t_diabetes <-tab_fun(df, "ind_preexist_diabetes", "Maternal pre-pregnancy diabetes")%>%
   tab_add_heads()
 
@@ -510,8 +506,6 @@ writeData(workbook, "Table_2",
 ##make caption bold
 addStyle(workbook, "Table_2", bold.style, rows = c(1,4), cols = 1:4, gridExpand = TRUE)
 ##write table with header styling
-#writeData(workbook, "Table_2", t2_baseline, startRow = 4, startCol = 1,
-#          headerStyle = head.style)
 
 for (row in 1:nrow(t2_baseline)){
   sheetRow <- data.frame(lapply(t2_baseline[row,],
@@ -540,8 +534,6 @@ addStyle(workbook, "Table_2",
 addStyle(workbook, "Table_2", 
          createStyle(halign="left",fgFill="white", 
          ), rows = 1:nrow(t2_baseline)+4, cols = 1, gridExpand = TRUE)
-
-
 
 rangeRows = 3
 rangeCols = 1:4
@@ -587,8 +579,8 @@ openxlsx::addStyle(
   gridExpand = TRUE
 )
 
-###T4 Model result table ####
-##ned to processing of df to add variables for eaching birthdays.
+### Model result table ####
+#
 addWorksheet(workbook, "T4_model_results")
 addStyle(workbook,  "T4_model_results", style = createStyle(fgFill = "white"),
          rows = 1:200, cols = 1:100, gridExpand = TRUE)
@@ -646,9 +638,8 @@ wideres$logRatio[1] <- NA
 wideres$cHR <- sapply(0:13, FUN=function(x){mean(wideres$logRatio[wideres$time_interval <= x], na.rm=T)})
 
 
-##load bootstrapped results (weighted)
+##load bootstrapped results
 bootres<-readRDS("/conf/FolicAcid/data/outputs/main_bootres.rds" )
-#unwt_bootres <- readRDS("/conf/FolicAcid/data/outputs/main_unwt_bootres.rds" )
 quibble <- function(x, q = c(0.025,0.5, 0.975), dropNA = TRUE) {
   tibble(x = quantile(x, q, na.rm = dropNA), q = q)
 }
@@ -662,10 +653,7 @@ bootres_cHR_summary <- bootres %>%
   mutate(cHR_modelled = wideres$cHR[wideres$time_interval==13]) %>%
   filter(time_interval==13)
 
-#chr_cis <- wideres %>% select(time_interval,cHR, `chr_CI2.5%`, `chr_CI97.5%` ) %>%
-#  filter(time_interval %in% c(1,5,10,13))
-#unwt_chr_cis <- wideres_unwt %>% select(time_interval,cHR, `unwt_chr_CI2.5%`, `unwtchr_CI97.5%` ) %>%
-#  filter(time_interval %in% c(1,5,10,13)) %>% rename(unwt_cHR = cHR)
+
 ## Cumulative risk####
 bootres <- bootres %>% mutate(CumIncTrt = 1-Treated, 
                               CumIncUntrt = 1- Untreated)
@@ -769,7 +757,7 @@ cuminc_header_trt <- paste0("Cumulative cancers diagnosed group treated with hig
                             scales::comma(n_lb$exposed_hdfa[1]), ") before the stated age")
 cuminc_header_untrt <- paste0("Cumulative cancers diagnosed group not treated with high dose folic acid (N = ",
                               scales::comma(n_lb$unexposed_hdfa[1]), ") before the stated age")
-#ad table headers
+#add table headers
 mergeCells(workbook,"T4_model_results", cols = 2, rows = 3:4)
 writeData(workbook, "T4_model_results", 
           cuminc_header_trt,
@@ -840,8 +828,8 @@ openxlsx::addStyle(
   stack = TRUE,
   gridExpand = TRUE
 )
-#####save file####
 
+#####save file####
 #openXL(workbook)
 workbook$ActiveSheet<-as.integer(1)
 saveWorkbook(workbook, paste0(folder_data_path, "outputs/Main_tables1_3.xlsx"), overwrite=TRUE)

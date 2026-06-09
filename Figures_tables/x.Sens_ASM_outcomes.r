@@ -1,11 +1,12 @@
-#####Sennsitivity analyses PYAR####
+#####Sensitivity analyses ASM only
+## Cancer outcomes PYAR####
+
 library(epiR)
 
-###restirct to those with an indication we could find for hdfa####
+###restrict to those with an indication we could find for hdfa####
 df_asm <- df  %>% filter(asm_flag=="Yes") 
 
-##T3_Outcomes####
-##cancer outcomes
+
 ##person years at risk
 df_asm <- df_asm %>% mutate(pyar_end = case_when(death==0 & is.na(TRANSFER_OUT_CODE)~ as.Date("2023-12-31"),
                                         death==1 | !is.na(TRANSFER_OUT_CODE)~ pmin(as.Date(death_date),as.Date(DATE_TRANSFER_OUT), na.rm=T),
